@@ -1,4 +1,4 @@
-import os
+import os, sys
 import shutil
 from textnode import TextNode, TextType
 from generate_page import generate_pages_recursive
@@ -6,9 +6,10 @@ from generate_page import generate_pages_recursive
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 def main():
-    copy_static("static", "public")
-    paths = ["content", "template.html", "public"]
-    generate_pages_recursive(*[os.path.join(ROOT_PATH, p) for p in paths])
+    basepath = sys.argv[1] if len(sys.argv) == 2 else "/"
+    copy_static("static", "docs")
+    paths = ["content", "template.html", "docs"]
+    generate_pages_recursive(*[os.path.join(ROOT_PATH, p) for p in paths], basepath)
 
 # copies content from a static directory to public directory
 def copy_static(source, target):
